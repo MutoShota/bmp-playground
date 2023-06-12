@@ -1,0 +1,28 @@
+name: bmp-playground
+
+mgmt:
+  network: bmp-playground
+  bridge: bmp-playground
+  ipv4-subnet: 100.64.1.0/24
+  ipv4-gw: 100.64.1.1
+
+topology:
+
+  nodes:
+    router-1: 
+      kind: linux
+      image: ghcr.io/shmuto/fullroute-kun:latest
+      binds:
+        - ./routers/router-1/gobgpd.conf:/gobgp/gobgpd.conf
+        #- ./routers/router-1/mrtdump:/gobgp/mrtdump
+      exec:
+        - ip address add 203.0.113.2/30 dev eth1
+    router-2:
+      kind: linux
+      image: frrouting/frr:v8.4.1
+      binds:
+        - ./routers/router-2/frr.conf:/etc/frr/frr.conf
+        - ./routers/frr/daemons:/etc/frr/daemons
+
+  links:
+    - endpoints: ["router-1:eth1", "router-2:eth1"]

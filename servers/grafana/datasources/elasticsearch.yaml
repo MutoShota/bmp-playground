@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: Elasticsearch
+    type: elasticsearch
+    access: proxy
+    orgId: 1
+    uid: elasticsearch
+    url: http://elasticsearch:9200
+    database: bmp
+    isDefault: true
+    jsonData:
+      timeField: '@timestamp'

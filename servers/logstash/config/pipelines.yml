@@ -1,0 +1,3 @@
+- pipeline.id: bmp
+  pipeline.workers: 4
+  path.config: "/usr/share/logstash/pipelines/bmp.conf"
