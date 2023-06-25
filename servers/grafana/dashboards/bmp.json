@@ -242,7 +242,7 @@
           "alias": "",
           "bucketAggs": [
             {
-              "field": "transit_as.keyword",
+              "field": "transit_asn.keyword",
               "id": "2",
               "settings": {
                 "min_doc_count": "1",
@@ -263,7 +263,7 @@
               "type": "count"
             }
           ],
-          "query": "(action.keyword: add AND router_ip.keyword: $router_ip)",
+          "query": "action.keyword: add AND router_ip.keyword: $router_ip",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -719,7 +719,7 @@
       "type": "table"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -737,6 +737,7 @@
         "type": "adhoc"
       },
       {
+        "allValue": "*",
         "current": {
           "selected": true,
           "text": [
@@ -745,10 +746,6 @@
           "value": [
             "$__all"
           ]
-        },
-        "datasource": {
-          "type": "elasticsearch",
-          "uid": "elasticsearch"
         },
         "definition": "{\"find\": \"terms\", \"field\": \"router_ip.keyword\"}",
         "hide": 0,
@@ -757,62 +754,6 @@
         "name": "router_ip",
         "options": [],
         "query": "{\"find\": \"terms\", \"field\": \"router_ip.keyword\"}",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
-        "datasource": {
-          "type": "elasticsearch",
-          "uid": "elasticsearch"
-        },
-        "definition": "{\"find\": \"terms\", \"field\": \"origin_as.keyword\"}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "OriginAS",
-        "multi": true,
-        "name": "origin_as",
-        "options": [],
-        "query": "{\"find\": \"terms\", \"field\": \"origin_as.keyword\"}",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
-        "datasource": {
-          "type": "elasticsearch",
-          "uid": "elasticsearch"
-        },
-        "definition": "{\"find\": \"terms\", \"field\": \"prefix_full.keyword\"}",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Prefix",
-        "multi": true,
-        "name": "prefix",
-        "options": [],
-        "query": "{\"find\": \"terms\", \"field\": \"prefix_full.keyword\"}",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -829,6 +770,6 @@
   "timezone": "",
   "title": "BMP",
   "uid": "bmp-dashboard",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
