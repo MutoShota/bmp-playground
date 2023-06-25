@@ -1,0 +1,57 @@
+name: bmp-playground
+
+mgmt:
+  network: clab-bmp
+  #ipv4-subnet: 100.64.1.0/24
+  #ipv4-gw: 100.64.1.1
+
+topology:
+  nodes:
+    transit1: 
+      kind: linux
+      image: ghcr.io/shmuto/fullroute-kun:latest
+      mgmt-ipv4: 100.64.1.101
+      binds:
+        - ./transit1/gobgpd.conf:/gobgp/gobgpd.conf
+        - ./transit1/mrtdump:/gobgp/mrtdump
+      exec:
+        - ip address add 203.0.113.100/32 dev lo
+        - ip address add 198.18.100.0/31 dev eth1
+        - ip address add 2001:db8::100/128 dev lo
+        - ip address add 2001:db8:100::100/64 dev eth1
+#      env:
+#        MRT_FILE: /gobgp/mrtdump
+#        PREFIX_LIMIT: 100000
+    transit2:
+      kind: linux
+      image: ghcr.io/shmuto/fullroute-kun:latest
+      mgmt-ipv4: 100.64.1.102
+      binds:
+        - ./transit2/gobgpd.conf:/gobgp/gobgpd.conf
+        - ./transit2/mrtdump:/gobgp/mrtdump
+      exec:
+        - ip address add 203.0.113.200/32 dev lo
+        - ip address add 198.18.200.0/31 dev eth1
+        - ip address add 2001:db8::200/128 dev lo
+        - ip address add 2001:db8:200::200/64 dev eth1
+#      env:
+#        MRT_FILE: /gobgp/mrtdump
+#        PREFIX_LIMIT: 100000
+
+    router1:
+      kind: linux
+      image: ghcr.io/shmuto/fullroute-kun:latest
+      binds:
+        - ./router1/gobgpd.conf:/gobgp/gobgpd.conf
+      mgmt-ipv4: 100.64.1.100
+      exec:
+        - ip address add 203.0.113.1/32 dev lo
+        - ip address add 198.18.100.1/31 dev eth1
+        - ip address add 198.18.200.1/31 dev eth2
+        - ip address add 2001:db8::1/128 dev lo
+        - ip address add 2001:db8:100::1/64 dev eth1
+        - ip address add 2001:db8:200::1/64 dev eth2
+
+  links:
+    - endpoints: ["router1:eth1", "transit1:eth1"]
+    - endpoints: ["router1:eth2", "transit2:eth1"]

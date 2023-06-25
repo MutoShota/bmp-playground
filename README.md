@@ -1,15 +1,42 @@
 # BGP Monitoring Protocol Playground
-このレポジトリではOpenBMP Collectorを使用したBMP収集環境の設定例をまとめています。
+このレポジトリではBGP Monitoring Protocolのサーバ側で必要となるツール一式の設定情報などをまとめています。
 
-実際にdocker composeによって以下のようなBMPの収集環境を立ち上げることができます。
+実際にdocker composeによって以下のツールを使用したBMPの収集環境を立ち上げることができます。
+- OpenBMP Collector ... BMPメッセージの受信とパース
+- Kafka ... OpenBMP Collectorからの出力を受けるためのメッセージキュー
+- Logstash ... KafkaからBMPメッセージを取得して整形しElasticsearchへ
+- Elasticsearch ... BMPメッセージの保存と検索
+- Grafana ... グラフなどの可視化機能の提供
+
 ![Alt text](image.png)
 
-デフォルト設定
-- OpenBMP Collector
-    - 受信ポート: 1790
-- Grafana
-    - 受信ポート: 3000 
-    - ログイン情報: admin/bmp
-
 # 使い方
-Docker Composeですべてのツールが立ち上がるようになっています。ツール類の設定ファイルは`servers`配下に格納されています。
+
+## BMPサーバとして使用する場合
+
+0. ルータにBMPの設定を入れる
+
+このレポジトリではBMPサーバは1790/tcpを使用するように設定されています。
+ルータ側でもそれに合わせたBMPやファイアウォールの設定を行ってください。
+異なるポートを使用したい場合はdocker-compose.yaml内のopenbmpに対するポートフォワーディングの設定を変更してください。
+
+1. このレポジトリをクローンする
+
+```
+git clone https://github.com/MutoShota/bmp-playground
+```
+
+2. クローンしたディレクトリに移動してdocker composeで各サービスを立ち上げる
+
+```
+cd
+sudo docker compose up -d
+```
+
+3. Grafanaのダッシュボードを見る
+
+以下のURLからBMP用のダッシュボードを見ることができます。IPアドレスの部分はこのツールを動かしているホストのIPアドレスに置き換えてください。
+
+```
+http://{ホストのIPアドレス}:3000/d/bmp-dashboard/bmp
+```
