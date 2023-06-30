@@ -1,9 +1,6 @@
 name: bmp-playground
-
 mgmt:
   network: clab-bmp
-  #ipv4-subnet: 100.64.1.0/24
-  #ipv4-gw: 100.64.1.1
 
 topology:
   nodes:
@@ -19,9 +16,10 @@ topology:
         - ip address add 198.18.100.0/31 dev eth1
         - ip address add 2001:db8::100/128 dev lo
         - ip address add 2001:db8:100::100/64 dev eth1
-#      env:
-#        MRT_FILE: /gobgp/mrtdump
-#        PREFIX_LIMIT: 100000
+      env:
+        MRT_FILE: /gobgp/mrtdump
+        PREFIX_LIMIT: 1000
+
     transit2:
       kind: linux
       image: ghcr.io/shmuto/fullroute-kun:latest
@@ -34,9 +32,9 @@ topology:
         - ip address add 198.18.200.0/31 dev eth1
         - ip address add 2001:db8::200/128 dev lo
         - ip address add 2001:db8:200::200/64 dev eth1
-#      env:
-#        MRT_FILE: /gobgp/mrtdump
-#        PREFIX_LIMIT: 100000
+      env:
+        MRT_FILE: /gobgp/mrtdump
+        PREFIX_LIMIT: 1000
 
     router1:
       kind: linux

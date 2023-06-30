@@ -2,7 +2,6 @@ services:
   openbmp:
     image: openbmp/collector:latest
     container_name: openbmp
-    restart: always
     ports:
       - target: 1790
         published: 1790
@@ -23,14 +22,12 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    restart: always
     networks:
       bmp:
       
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: kafka
-    restart: always
     depends_on:
       - zookeeper
     environment:
