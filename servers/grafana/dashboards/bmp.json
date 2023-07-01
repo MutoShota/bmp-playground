@@ -276,7 +276,7 @@
             "conversions": [
               {
                 "destinationType": "string",
-                "targetField": "transit_as.keyword"
+                "targetField": "transit_asn.keyword"
               }
             ],
             "fields": {}
@@ -694,7 +694,8 @@
                 "error_text",
                 "remote_asn",
                 "remote_ip",
-                "router_ip"
+                "router_ip",
+                "action"
               ]
             }
           }
@@ -705,21 +706,27 @@
             "excludeByName": {},
             "indexByName": {
               "@timestamp": 0,
-              "error_text": 6,
-              "local_bgp_id": 2,
+              "action": 1,
+              "error_text": 5,
               "remote_asn": 3,
-              "remote_bgp_id": 5,
               "remote_ip": 4,
-              "router_ip": 1
+              "router_ip": 2
             },
-            "renameByName": {}
+            "renameByName": {
+              "@timestamp": "日時",
+              "action": "UP/DOWN",
+              "error_text": "",
+              "remote_asn": "対向AS",
+              "remote_ip": "対向IP",
+              "router_ip": "ルータ"
+            }
           }
         }
       ],
       "type": "table"
     }
   ],
-  "refresh": false,
+  "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -747,6 +754,10 @@
             "$__all"
           ]
         },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "elasticsearch"
+        },
         "definition": "{\"find\": \"terms\", \"field\": \"router_ip.keyword\"}",
         "hide": 0,
         "includeAll": true,
@@ -754,7 +765,7 @@
         "name": "router_ip",
         "options": [],
         "query": "{\"find\": \"terms\", \"field\": \"router_ip.keyword\"}",
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -770,6 +781,6 @@
   "timezone": "",
   "title": "BMP",
   "uid": "bmp-dashboard",
-  "version": 1,
+  "version": 5,
   "weekStart": ""
 }

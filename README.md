@@ -29,13 +29,14 @@ git clone https://github.com/MutoShota/bmp-playground
 2. クローンしたディレクトリに移動してdocker composeで各コンテナを立ち上げる
 
 ```
-cd
+cd bmp-playground
 sudo docker compose up -d
 ```
 
 3. Grafanaのダッシュボードを見る
 
-GrafanaではBMP用のダッシュボードを見ることができます。デフォルトでは3000番ポートで受け付けています。IPアドレスの部分はこのツールを動かしているホストのIPアドレスに置き換えてください。
+GrafanaではBMP用のダッシュボードを見ることができます。デフォルトでは3000番ポートで受け付けています。`admin/bmp`でログインできますｑ。
+IPアドレスの部分は実際のホストのIPアドレスに置き換えてください。
 
 ```
 http://{ホストのIPアドレス}:3000

@@ -11,6 +11,7 @@ services:
         target: /usr/etc/openbmp/openbmpd.conf
     environment:
       KAFKA_FQDN: kafka:9092
+    mem_limit: 1g
     networks:
       clab-bmp:
         ipv4_address: 100.64.1.179
@@ -22,6 +23,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    mem_limit: 1g
     networks:
       bmp:
       
@@ -36,6 +38,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LOG_RETENTION_HOURS: 12
+    mem_limit: 1g
     networks:
       bmp:
  
@@ -58,19 +61,6 @@ services:
     networks:
       bmp:
  
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.8.1
-    container_name: kibana
-    ports:
-      - target: 5601
-        published: 5601
-    environment:
-      SERVER_HOST: 0.0.0.0
-      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
-    networks:
-      bmp:
- 
-  
   logstash:
     image: docker.elastic.co/logstash/logstash:8.8.1
     container_name: logstash
@@ -81,6 +71,7 @@ services:
       - type: bind
         source: ./servers/logstash/pipelines
         target: /usr/share/logstash/pipelines
+    mem_limit: 1g
     networks:
       bmp:
     
@@ -92,7 +83,7 @@ services:
       node.name: es-01
       discovery.type: single-node
       xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms2g -Xmx2g"
+      ES_JAVA_OPTS: "-Xms4g -Xmx4g"
     networks:
       bmp:
 
