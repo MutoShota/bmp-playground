@@ -11,7 +11,6 @@ services:
         target: /usr/etc/openbmp/openbmpd.conf
     environment:
       KAFKA_FQDN: kafka:9092
-    mem_limit: 1g
     networks:
       clab-bmp:
         ipv4_address: 100.64.1.179
@@ -23,22 +22,18 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    mem_limit: 1g
     networks:
       bmp:
       
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: kafka
-    depends_on:
-      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LOG_RETENTION_HOURS: 12
-    mem_limit: 1g
     networks:
       bmp:
  
@@ -71,7 +66,6 @@ services:
       - type: bind
         source: ./servers/logstash/pipelines
         target: /usr/share/logstash/pipelines
-    mem_limit: 1g
     networks:
       bmp:
     
@@ -84,6 +78,7 @@ services:
       discovery.type: single-node
       xpack.security.enabled: false
       ES_JAVA_OPTS: "-Xms4g -Xmx4g"
+    mem_limit: 8g
     networks:
       bmp:
 

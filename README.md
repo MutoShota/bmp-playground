@@ -8,7 +8,7 @@
 - Elasticsearch ... BMPメッセージの保存と検索
 - Grafana ... グラフなどの可視化機能の提供
 
-![Alt text](image.png)
+![Alt text](bmp.png)
  
 # 使い方
 

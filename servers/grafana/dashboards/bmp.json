@@ -138,7 +138,7 @@
               "type": "count"
             }
           ],
-          "query": "action.keyword: add",
+          "query": "action.keyword: add AND is_pre_policy: 1 AND router_ip.keyword: $router_ip",
           "refId": "A",
           "timeField": "@timestamp"
         },
@@ -165,12 +165,12 @@
               "type": "count"
             }
           ],
-          "query": "action.keyword: del",
+          "query": "action.keyword: del AND is_pre_policy: 1 AND router_ip.keyword: $router_ip",
           "refId": "B",
           "timeField": "@timestamp"
         }
       ],
-      "title": "経路UPDATE/WITHDRAWN",
+      "title": "経路UPDATE/WITHDRAWN (Pre-Policy)",
       "transformations": [],
       "type": "timeseries"
     },
@@ -411,6 +411,7 @@
             "cellOptions": {
               "type": "auto"
             },
+            "filterable": true,
             "inspect": false
           },
           "mappings": [],
@@ -678,7 +679,7 @@
               "type": "logs"
             }
           ],
-          "query": "action.keyword: up OR action.keyword: down",
+          "query": "(action.keyword: up OR action.keyword: down)\nAND router_ip.keyword: $router_ip",
           "refId": "A",
           "timeField": "@timestamp"
         }
@@ -691,11 +692,11 @@
             "include": {
               "names": [
                 "@timestamp",
+                "action",
                 "error_text",
                 "remote_asn",
                 "remote_ip",
-                "router_ip",
-                "action"
+                "router_ip"
               ]
             }
           }
@@ -748,10 +749,10 @@
         "current": {
           "selected": true,
           "text": [
-            "All"
+            "100.64.1.100"
           ],
           "value": [
-            "$__all"
+            "100.64.1.100"
           ]
         },
         "datasource": {
