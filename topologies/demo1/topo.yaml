@@ -1,43 +1,54 @@
 name: bmp-playground
-
 mgmt:
   network: clab-bmp
-  #ipv4-subnet: 100.64.1.0/24
-  #ipv4-gw: 100.64.1.1
 
 topology:
   nodes:
+    target1:
+      kind: linux
+      image: ghcr.io/shmuto/fullroute-kun:latest
+      mgmt-ipv4: 100.64.1.99
+      binds:
+        - ./target1/gobgpd.conf:/gobgp/gobgpd.conf
+#        - ./traget1/mrtdump:/gobgp/mrtdump
+      exec:
+        - ip address add 203.0.113.10/32 dev lo
+        - ip address add 198.18.10.0/31 dev eth1
+        - ip address add 198.18.20.0/31 dev eth2
+        - ip address add 2001:db8:1000::1 dev lo
+        - ip address add 2001:db8:1001::1 dev eth1
+        - ip address add 2001:db8:1002::1 dev eth2
+#      env:
+#        MRT_FILE: /gobgp/mrtdump
+#        PREFIX_LIMIT: 1000
+
     transit1: 
       kind: linux
       image: ghcr.io/shmuto/fullroute-kun:latest
       mgmt-ipv4: 100.64.1.101
       binds:
         - ./transit1/gobgpd.conf:/gobgp/gobgpd.conf
-        - ./transit1/mrtdump:/gobgp/mrtdump
       exec:
         - ip address add 203.0.113.100/32 dev lo
         - ip address add 198.18.100.0/31 dev eth1
+        - ip address add 198.18.10.1/31 dev eth2
         - ip address add 2001:db8::100/128 dev lo
         - ip address add 2001:db8:100::100/64 dev eth1
-#      env:
-#        MRT_FILE: /gobgp/mrtdump
-#        PREFIX_LIMIT: 100000
+        - ip address add 2001:db8:1001::100/64 dev eth2
+
     transit2:
       kind: linux
       image: ghcr.io/shmuto/fullroute-kun:latest
       mgmt-ipv4: 100.64.1.102
       binds:
         - ./transit2/gobgpd.conf:/gobgp/gobgpd.conf
-        - ./transit2/mrtdump:/gobgp/mrtdump
       exec:
         - ip address add 203.0.113.200/32 dev lo
         - ip address add 198.18.200.0/31 dev eth1
+        - ip address add 198.18.20.1/31 dev eth2
         - ip address add 2001:db8::200/128 dev lo
         - ip address add 2001:db8:200::200/64 dev eth1
-#      env:
-#        MRT_FILE: /gobgp/mrtdump
-#        PREFIX_LIMIT: 100000
-
+        - ip address add 2001:db8:1002::200/64 dev eth2
     router1:
       kind: linux
       image: ghcr.io/shmuto/fullroute-kun:latest
@@ -53,5 +64,7 @@ topology:
         - ip address add 2001:db8:200::1/64 dev eth2
 
   links:
+    - endpoints: ["transit1:eth2", "target1:eth1"]
+    - endpoints: ["transit2:eth2", "target1:eth2"]
     - endpoints: ["router1:eth1", "transit1:eth1"]
     - endpoints: ["router1:eth2", "transit2:eth1"]

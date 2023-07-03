@@ -8,8 +8,8 @@
 - Elasticsearch ... BMPメッセージの保存と検索
 - Grafana ... グラフなどの可視化機能の提供
 
-![Alt text](image.png)
-
+![Alt text](bmp.png)
+ 
 # 使い方
 
 ## BMPサーバとして使用する場合
@@ -18,7 +18,7 @@
 
 このレポジトリではBMPサーバは1790/tcpを使用するように設定されています。
 ルータ側でもそれに合わせたBMPやファイアウォールの設定を行ってください。
-異なるポートを使用したい場合はdocker-compose.yaml内のopenbmpに対するポートフォワーディングの設定を変更してください。
+異なるポートを使用したい場合はdocker-compose.yaml内のopenbmpに関する設定を変更してください。
 
 1. このレポジトリをクローンする
 
@@ -26,17 +26,18 @@
 git clone https://github.com/MutoShota/bmp-playground
 ```
 
-2. クローンしたディレクトリに移動してdocker composeで各サービスを立ち上げる
+2. クローンしたディレクトリに移動してdocker composeで各コンテナを立ち上げる
 
 ```
-cd
+cd bmp-playground
 sudo docker compose up -d
 ```
 
 3. Grafanaのダッシュボードを見る
 
-以下のURLからBMP用のダッシュボードを見ることができます。IPアドレスの部分はこのツールを動かしているホストのIPアドレスに置き換えてください。
+GrafanaではBMP用のダッシュボードを見ることができます。デフォルトでは3000番ポートで受け付けています。
+IPアドレスの部分は実際のホストのIPアドレスに置き換えてください。
 
 ```
-http://{ホストのIPアドレス}:3000/d/bmp-dashboard/bmp
+http://{ホストのIPアドレス}:3000
 ```
